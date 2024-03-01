@@ -1,0 +1,37 @@
+package main
+
+import (
+	"leetcode/go-helper"
+)
+
+func main() {
+	helper.PrintJSON(getRow(1))
+	helper.PrintJSON(getRow(2))
+	helper.PrintJSON(getRow(3))
+	helper.PrintJSON(getRow(4))
+}
+
+func getRow(rowIndex int) []int {
+	res := generate(rowIndex + 1)
+	return res[len(res) - 1]
+}
+
+func generate(numRows int) [][]int {
+	res := [][]int{}
+	res = append(res, []int{1})
+
+	for i := 1; i < numRows; i++ {
+		lastRow := res[i - 1]
+		currRow := make([]int, i + 1)
+		for j := 0; j <= i; j++ {
+			if j == 0 || j == i {
+				currRow[j] = 1
+			} else {
+				currRow[j] = lastRow[j] + lastRow[j - 1]
+			}
+		}
+		res = append(res, currRow)
+	}
+
+	return res
+}
